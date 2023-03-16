@@ -3,17 +3,50 @@
   <head>
     <meta charset="utf-8">
     <title>Rotating Cube</title>
+    
     <style>
       body {
         margin: 0;
+        overflow: hidden;
       }
+      .bt{
+        margin-top: 30px;
+        display: flex;
+        z-index: 1;
+        position: absolute;
+        gap: 5em;
+        margin-left: 2em;
+      }
+      .pyramid{
+        background-color: rgba(203, 72, 72, 0.751);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px white;
+        height: 2em;
+        cursor: pointer;
+      }
+      .pyramid:hover{
+        transform: scale(1.2);
+        transition: 0.5s ease-in-out;
+      }
+      li{color: aliceblue;}
     </style>
   </head>
   <body>
-    <button onclick="changeShape()">Change to Pyramid</button>
-    <button onclick="changeShapeAgain()">Change to Cube</button>
+    <div class="bt">
+      <button class="pyramid" onclick="changetopyramid()">Change to Pyramid</button>
+      <button class="pyramid" onclick="changetocube()">Change to Cube</button>
+      <button class="pyramid" onclick="changetocylinder()">Change to Cylinder</button>
+
+      <li>SCROLL TO ZOOM IN AND OUT</li>
+
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115/build/three.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115/examples/js/loaders/GLTFLoader.js"></script>
     <script>
       let scene, camera, render, cube;
       const width = window.innerWidth;
@@ -34,6 +67,8 @@ document.body.appendChild(renderer.domElement);
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
 const pyramidGeometry = new THREE.ConeGeometry(1, 1, 4);
+const cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 16);
+
  cube = new THREE.Mesh(geometry, material);
 
 
@@ -90,23 +125,35 @@ function animate() {
 
    renderer.render(scene, camera);
 }
-      function changeShape() {
+      function changetopyramid() {
         scene.remove(cube);
         const pyramidGeometry = new THREE.ConeGeometry(1, 1, 4);
         const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         cube = new THREE.Mesh(pyramidGeometry, material);
+        cube.castShadow = true;
+        cube.receiveShadow = true;
         scene.add(cube);
       }
-      function changeShapeAgain() {
+      function changetocube() {
         scene.remove(cube);
         const geometry = new THREE.BoxGeometry();
         const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         cube = new THREE.Mesh(geometry, material);
+        cube.castShadow = true;
+        cube.receiveShadow = true;
+        scene.add(cube);
+      }
+      function changetocylinder() {
+        scene.remove(cube);
+        const geometry = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 16);
+        const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        cube = new THREE.Mesh(geometry, material);
+        cube.castShadow = true;
+        cube.receiveShadow = true;
         scene.add(cube);
       }
       init();
 animate();
-
     </script>
 
   </body>
